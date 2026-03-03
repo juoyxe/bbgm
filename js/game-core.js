@@ -3175,8 +3175,9 @@ const Game = {
         document.getElementById('xiZhaoModal').style.display = 'none';
         document.getElementById('xiZhaoModal').innerHTML = '';
 
-        // 设置日期到5月4日
-        this.state.currentDate = new Date(2024, 4, 4);
+        // 设置日期到当年5月4日（保持当前年份，不倒退）
+        const year = this.state.currentDate.getFullYear();
+        this.state.currentDate = new Date(year, 4, 4);
         this.state.isWeekend = this.checkIfWeekend();
         this.state.weekdayActionsLeft = 5;
         this.state.hasBookedFriendlyMatch = false;
@@ -3218,8 +3219,9 @@ const Game = {
             UI.modalState.activeModal = null;
         }
 
-        // 设置日期到7月6日
-        this.state.currentDate = new Date(2024, 6, 6); // 月份从0开始，6=7月
+        // 设置日期到当年7月6日（保持当前年份）
+        const year = this.state.currentDate.getFullYear();
+        this.state.currentDate = new Date(year, 6, 6); // 月份从0开始，6=7月
         this.state.isWeekend = this.checkIfWeekend();
         this.state.weekdayActionsLeft = 5;
         this.state.hasBookedFriendlyMatch = false;

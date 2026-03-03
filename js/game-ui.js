@@ -1443,15 +1443,22 @@ const UI = {
         Game.state.isEventActive = true;
         this.updateButtons();
 
+        // 确保 wins 为数字，避免类型问题导致季军(1胜)被显示成参与奖
+        wins = Number(wins);
+        if (typeof matches !== 'undefined' && Array.isArray(matches)) {
+            const actualWins = matches.filter(function (m) { return m.win; }).length;
+            if (actualWins >= 0 && actualWins <= 3) wins = actualWins;
+        }
+
         let titleText = '';
         let titleColor = '';
-        if (wins === 3) {
+        if (wins >= 3) {
             titleText = '🏆 冠军';
             titleColor = '#FFD700';
-        } else if (wins === 2) {
+        } else if (wins >= 2) {
             titleText = '🥈 亚军';
             titleColor = '#C0C0C0';
-        } else if (wins === 1) {
+        } else if (wins >= 1) {
             titleText = '🥉 季军';
             titleColor = '#CD7F32';
         } else {
@@ -1526,11 +1533,11 @@ const UI = {
                   )}, 1fr); gap:5px; margin-top:8px;">${rewardItems.join('')}</div>`
                 : '';
 
-        // 评语
+        // 评语（与标题一致：3/2/1胜 = 冠/亚/季军）
         let comment = '';
-        if (wins === 3) comment = '🎉 恭喜夺冠！球队士气大振！';
-        else if (wins === 2) comment = '✨ 表现不错，明年再战！';
-        else if (wins === 1) comment = '💪 积累了宝贵经验！';
+        if (wins >= 3) comment = '🎉 恭喜夺冠！球队士气大振！';
+        else if (wins >= 2) comment = '✨ 表现不错，明年再战！';
+        else if (wins >= 1) comment = '💪 积累了宝贵经验！';
         else comment = '😢 好好总结，来年再战！';
 
         let desc = `
