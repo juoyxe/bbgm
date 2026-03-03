@@ -1369,9 +1369,11 @@ const RANDOM_EVENT_POOL = [
             let introducer = shuffled[0];
             this.introducer = introducer; // 保存起来供 choices 使用
 
-            // 生成朋友的信息
+            // 生成朋友的信息（队里已有柚子则不再出现柚子，否则保持原有出现概率）
             let tempNames = ['小萌', '阿遥', '琪琪', '柚子', '柚子', '糖糖']; // 柚子多放一次，出现概率更高
-            let friendName = Game.getUniquePlayerName(tempNames[Math.floor(Math.random() * tempNames.length)]);
+            let teamHasYuzu = Game.state.playerList.some(function (p) { return p.name === '柚子'; });
+            let candidateNames = teamHasYuzu ? ['小萌', '阿遥', '琪琪', '糖糖'] : tempNames;
+            let friendName = Game.getUniquePlayerName(candidateNames[Math.floor(Math.random() * candidateNames.length)]);
             this.friendName = friendName; // 保存起来
 
             let loyalty = Game.randomDelta(70, 85);
